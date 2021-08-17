@@ -106,7 +106,14 @@ class PdfMaker:
         return self.work_dir
 
     def _get_target(self):
-        return os.path.join(self.work_dir, self._target_name)
+        target_name = self._target_name
+
+        if not target_name:
+            basename = os.path.basename(self._source_path)
+            if not self.is_folder:
+                basename, _ = os.path.splitext(basename)
+            target_name = f"{basename}.pdf"
+        return os.path.join(self.work_dir, target_name)
 
     def _parse_file_name_list_from_toc_md(self):
         toc_path = os.path.join(self._source_path, "toc.md")
