@@ -42,8 +42,8 @@ class Command:
         self._input_format = FileType.value_of(input_format)
 
     @staticmethod
-    def pdf(i: str, o: str):
-        PdfMaker(i, os.path.basename(o)).run()
+    def pdf(i: str):
+        PdfMaker(i).run()
 
     @staticmethod
     def epub():
@@ -52,7 +52,7 @@ class Command:
 
 class PdfMaker:
 
-    def __init__(self, source_path, target_name, input_format=FileType.Html) -> None:
+    def __init__(self, source_path, target_name=None, input_format=FileType.Html) -> None:
         self._source_path = os.path.realpath(source_path)
         self._target_name = target_name
         self._input_format = input_format
@@ -67,7 +67,6 @@ class PdfMaker:
                                 --pdf-engine=xelatex --toc \
                                 --highlight-style tango \
                                 -V colorlinks -V urlcolor=NavyBlue -V toccolor=NavyBlue \
-                                -V 'mainfont:FZShuSong-Z01S' \
                                 -s -o {self._get_target()} \
                                 {self._get_head_tex()} \
                                 --resource-path {self._get_resource_path()} \
@@ -107,7 +106,6 @@ class PdfMaker:
 
     def _get_target(self):
         target_name = self._target_name
-
         if not target_name:
             basename = os.path.basename(self._source_path)
             if not self.is_folder:
@@ -138,10 +136,10 @@ class PdfMaker:
         head_tex = os.path.join(os.path.dirname(self._source_path), "head.tex")
         if os.path.exists(head_tex):
             return f'-H {os.path.join(self.work_dir, "head.tex")}'
-        return ""
+        return f'-H {os.path.join("/data/template/html2Pdf_zh.tex")}'
 
 
 if __name__ == '__main__':
     # print(FileType.Pdf)
     # fire.Fire(Command)
-    Command().pdf("../ebook/Kafka核心技术与实战", "output/index.pdf")
+    Command().pdf("../ebook/ebook_folder")

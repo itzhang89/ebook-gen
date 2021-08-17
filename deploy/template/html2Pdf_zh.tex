@@ -1,0 +1,63 @@
+% define chinese newline rules
+
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+
+% define margion size
+
+\usepackage[top=2cm, bottom=1.5cm, left=2cm, right=2cm]{geometry}
+
+% set fonts
+\usepackage{xeCJK}                      %使用xeCJK宏包
+% 英文字体配置部分
+%\setmainfont{Source Serif Pro}%Times New Roman
+%\setsansfont{Source Sans Pro}
+%\setmonofont{Source Code Pro}
+% 中文字体配置部分
+%\usepackage{xeCJK}%中文字体
+%\setCJKmainfont{Songti SC}%宋体正文字体
+%\setCJKsansfont{PingFang SC}%黑体 无衬线字体
+%\setCJKmonofont{Kaiti SC}%楷体 等宽字体
+%\setCJKfamilyfont{boldsong}{Source Han Serif SC Heavy}
+%\setCJKmainfont{FandolSong}%正文字体
+%\setCJKsansfont{FandolHei}%无衬线字体
+%\setCJKmonofont{楷体}%等宽字体
+%\setCJKfamilyfont{Regular}{FandolFang}
+
+% Start a new page only after TOC
+
+\let\oldtoc\tableofcontents
+\renewcommand{\tableofcontents}{\oldtoc\newpage}
+
+% change background color for inline code in
+% markdown files. The following code does not work well for
+% long text as the text will exceed the page boundary
+\definecolor{bgcolor}{HTML}{E0E0E0}
+\let\oldtexttt\texttt
+
+\renewcommand{\texttt}[1]{
+    \colorbox{bgcolor}{\oldtexttt{#1}}
+}
+
+% Change the default style of block quote
+
+\usepackage{framed}
+\usepackage{quoting}
+
+\definecolor{bgcolor}{HTML}{DADADA}
+\colorlet{shadecolor}{bgcolor}
+% define a new environment shadedquotation. You can change leftmargin and
+% rightmargin as you wish.
+\newenvironment{shadedquotation}
+{\begin{shaded*}
+     \quoting[leftmargin=1em, rightmargin=0pt, vskip=0pt, font=itshape]
+     }
+     {\endquoting
+\end{shaded*}
+}
+
+%
+\def\quote{\shadedquotation}
+\def\endquote{\endshadedquotation}
+
+
